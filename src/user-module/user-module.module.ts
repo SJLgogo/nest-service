@@ -5,7 +5,8 @@ import { UserController } from './controller/user.controller';
 
 @Module({
     imports:[LoggerMiddlewareModule],
-    controllers:[UserController]
+    controllers:[UserController],
+    providers:[]
 })
 
 /** 模块使用中间件 必须满足NestModule接口 */
