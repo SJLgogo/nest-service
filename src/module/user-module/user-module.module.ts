@@ -1,12 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { LoggerMiddlewareModule } from 'src/middle-ware/logger-middleware/logger-middleware.module';
-import { LoggerMiddleware } from 'src/middle-ware/logger-middleware/logger.middleware';
+import { LoggerMiddlewareModule } from 'src/common/middleware/logger-middleware/logger-middleware.module';
+import { LoggerMiddleware } from 'src/common/middleware/logger-middleware/logger.middleware';
 import { UserController } from './controller/user.controller';
+import { UserService } from './service/user.service';
 
 @Module({
     imports:[LoggerMiddlewareModule],
     controllers:[UserController],
-    providers:[]
+    providers:[UserService]
 })
 
 /** 模块使用中间件 必须满足NestModule接口 */

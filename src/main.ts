@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BaseExceptionFillter } from './common/exception/base.exception.filter';
 import { HttpExceptionFilter } from './common/exception/exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,16 @@ async function bootstrap() {
    * 全局管道
    */
   app.useGlobalPipes(new ValidationPipe());
+
+  /**
+   * 全局守卫
+   * app.useGlobalGuards(new RolesGuard());
+   */
+
+  /**
+   * 全局拦截器
+   */
+   app.useGlobalInterceptors(new LoggingInterceptor())
 
   await app.listen(3000);
 }
