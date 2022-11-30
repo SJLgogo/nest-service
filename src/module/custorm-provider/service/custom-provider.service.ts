@@ -39,7 +39,7 @@ const mockService = {
  * 三: useClass  使用此class作为令牌
  */
 @Injectable()
-class ConfigService{
+class ConfigProviderService{
     constructor(){}
 }
 
@@ -55,5 +55,5 @@ class ConfigService{
 export {
     TemplateService,
     mockService,
-    ConfigService
+    ConfigProviderService
 }

@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
+import { CustormDynamicModule } from '../custorm-dynamic/custorm-dynamic.module';
 import { CustormProviderController } from './controller/custorm-provider.controller';
-import { ConfigService , TemplateService } from './service/custom-provider.service';
+import { ConfigProviderService, TemplateService } from './service/custom-provider.service';
 import { DevelopmentService } from './service/development-config.service';
 import { ProductionConfigService } from './service/Production-config.service';
 
 const configServiceProvider =   {
-    provide:ConfigService,
+    provide:ConfigProviderService,
     useClass:process.env.NODE_ENV === 'development' ? DevelopmentService : ProductionConfigService
 }
 
@@ -35,7 +36,7 @@ const configFactory = {
         configServiceProvider,
         aliasProvider
     ],
-    imports:[],
+    imports:[CustormDynamicModule.register({folder:'./config'})],
     exports:[],
     controllers:[CustormProviderController]
 })
