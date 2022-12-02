@@ -21,7 +21,7 @@ export class UserController {
 
     @Get()
     async findAll(){
-        return this.userService.findAll()
+       return await this.userService.findAllUser()
     }
 
     @Post()

@@ -1,14 +1,19 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+// entity 映射到数据库表的类 ， 可以通过一个新类来创建一个实体 ，并用 @Entity来标记
+@Entity()
 export class User{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')   //  标记为主列 ，值自动生成
     id:number
+    
+    @Column()
+    userName:string
+    
+    @Column()
+    age:number
 
     @Column()
-    firstName:string
-
-    @Column()
-    lastName:string
+    sex:string
 
     @Column({default:false})
     isActive:boolean;
