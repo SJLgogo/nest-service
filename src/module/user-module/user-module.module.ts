@@ -1,13 +1,20 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddlewareModule } from 'src/common/middleware/logger-middleware/logger-middleware.module';
 import { LoggerMiddleware } from 'src/common/middleware/logger-middleware/logger.middleware';
 import { UserController } from './controller/user.controller';
+import { User } from './entity/user.entity';
 import { UserService } from './service/user.service';
 
+/**
+ * imports:  使用forFeature() 方法定义在当前范围中注册的存储库 。这样，就可以使用@InjectRepository() 将 UserRepository 注入到 UserService
+ * exports:  如果需要在导入TypeOrmModul的模块之外使用存储库。 对于Feature , 需要重新导出它生成的提供程序，可以通过导出整个模块来完成此操作。
+ */
 @Module({
-    imports:[LoggerMiddlewareModule],
+    imports:[LoggerMiddlewareModule , TypeOrmModule.forFeature([User])],
     controllers:[UserController],
-    providers:[UserService]
+    providers:[UserService],
+    exports:[TypeOrmModule]
 })
 
 /** 模块使用中间件 必须满足NestModule接口 */
@@ -29,7 +36,5 @@ export class UserModuleModule implements NestModule{
     // configure(consumer:MiddlewareConsumer){
     //     consumer.apply(cors(),helmet(),logger).forRoutes('user') 
     // } 
-
-
 
   }
