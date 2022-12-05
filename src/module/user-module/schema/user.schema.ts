@@ -1,6 +1,8 @@
 import { EntitySchema } from "typeorm";
 import { User } from "../entity/user.entity";
 
+
+// 分离实体定义 
 export const UserSchema = new EntitySchema<User>({
     name:'User',
     target:User,

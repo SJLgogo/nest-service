@@ -1,7 +1,8 @@
 import { HttpException, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectDataSource, InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { HttpExceptionFilter } from "src/common/exception/exception.filter";
 import { DataSource, Repository } from "typeorm";
+import { Car } from "../entity/car.entity";
 import { User } from "../entity/user.entity";
 
 @Injectable()
@@ -9,7 +10,8 @@ export class UserService{
 
     constructor(
         @InjectRepository(User) private userRepository:Repository<User>,
-        private dataSource : DataSource
+        @InjectRepository(Car) private carRepository:Repository<Car>,
+        private dataSource : DataSource,
     ){
     }
 

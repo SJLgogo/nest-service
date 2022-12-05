@@ -10,6 +10,7 @@ import { LoggerMiddleware } from './common/middleware/logger-middleware/logger.m
 import { CustormDynamicModule } from './module/custorm-dynamic/custorm-dynamic.module';
 import { CustormProviderModule } from './module/custorm-provider/custorm-provider.module';
 import { UserController } from './module/user-module/controller/user.controller';
+import { Car } from './module/user-module/entity/car.entity';
 import { User } from './module/user-module/entity/user.entity';
 import { UserModuleModule } from './module/user-module/user-module.module';
 
@@ -30,21 +31,10 @@ import { UserModuleModule } from './module/user-module/user-module.module';
       username:'root',
       password:'root',
       database:'nest',
-      // entities:[User],
+      // entities:[User , Car],
       autoLoadEntities: true,  // 不包括未通过 forFeature() 方法注册的实体
       synchronize:true  // 不要再生产中使用 ， 会丢失数据
     }),
-    TypeOrmModule.forRoot({
-      type:'mysql',
-      host:'localhost',
-      port:3306,
-      username:'root',
-      password:'root',
-      database:'nest',
-      entities:[User],
-      autoLoadEntities: true,  // 不包括未通过 forFeature() 方法注册的实体
-      synchronize:true  // 不要再生产中使用 ， 会丢失数据
-    })
   ],
   controllers: [AppController],
   providers: [AppService , {
