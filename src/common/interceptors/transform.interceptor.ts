@@ -4,7 +4,13 @@ import { catchError, map, Observable, throwError } from "rxjs";
 @Injectable()
 export class TransformInterceptor implements NestInterceptor{
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
-        return next.handle().pipe(map(data=>{data}))
+        return next.handle().pipe(map(data=>{
+            return {
+                data:data,
+                code:200,
+                msg:'请求成功'
+            }
+        }))
     }
 }
 

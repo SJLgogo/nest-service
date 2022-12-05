@@ -21,10 +21,11 @@ import { UserModuleModule } from './module/user-module/user-module.module';
 @Module({
   imports: [
     LoggerMiddlewareModule, 
-    UserModuleModule ,
+    UserModuleModule,
     CustormProviderModule,
     CustormDynamicModule.register({folder:'./config'}),
-    TypeOrmModule.forRoot({
+    /** 静态配置 */
+    TypeOrmModule.forRoot({ 
       type:'mysql',
       host:'localhost',
       port:3306,
@@ -32,8 +33,8 @@ import { UserModuleModule } from './module/user-module/user-module.module';
       password:'root',
       database:'nest',
       // entities:[User , Car],
-      autoLoadEntities: true,  // 不包括未通过 forFeature() 方法注册的实体
-      synchronize:true  // 不要再生产中使用 ， 会丢失数据
+      autoLoadEntities: true,  
+      synchronize:true  
     }),
   ],
   controllers: [AppController],
@@ -51,3 +52,53 @@ export class AppModule {
 }
 
 
+/** 通过异步配置存储库模块选项 */
+    // TypeOrmModule.forRootAsync({
+    //   useFactory:()=>({
+    //       type:'mysql',
+    //       host:'localhost',
+    //       port:3306,
+    //       username:'root',
+    //       password:'root',
+    //       database:'nest',
+    //       // entities:[User , Car],
+    //       autoLoadEntities: true,  
+    //       synchronize:true  
+    //   })
+    // })
+
+/** 异步，并且能够注入依赖关系 */
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: (configService: ConfigService) => ({
+    //     type: 'mysql',
+    //     host: configService.get('HOST'),
+    //     port: +configService.get('PORT'),
+    //     username: configService.get('USERNAME'),
+    //     password: configService.get('PASSWORD'),
+    //     database: configService.get('DATABASE'),
+    //     entities: [],
+    //     synchronize: true,
+    //   }),
+    //   inject: [ConfigService],
+    // });
+
+/** 自定义数据源工厂 */
+// TypeOrmModule.forRootAsync({
+//   imports: [ConfigModule],
+//   inject: [ConfigService],
+//   useFactory: (configService: ConfigService) => ({
+//     type: 'mysql',
+//     host: configService.get('HOST'),
+//     port: +configService.get('PORT'),
+//     username: configService.get('USERNAME'),
+//     password: configService.get('PASSWORD'),
+//     database: configService.get('DATABASE'),
+//     entities: [],
+//     synchronize: true,
+//   }),
+//   dataSourceFactory: async (options) => {
+//     const dataSource = await new DataSource(options).initialize();
+//     return dataSource;
+//   },
+// });

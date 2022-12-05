@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { BaseExceptionFillter } from './common/exception/base.exception.filter';
 import { HttpExceptionFilter } from './common/exception/exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,9 @@ async function bootstrap() {
    * app.useGlobalFilters(new HttpExceptionFilter()) 
    */
   app.useGlobalFilters( new BaseExceptionFillter()  , new HttpExceptionFilter())
+
+  // 全局注册拦截器
+  app.useGlobalInterceptors(new TransformInterceptor())
   
   /**
    * 全局管道
