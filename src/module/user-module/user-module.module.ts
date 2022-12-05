@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddlewareModule } from 'src/common/middleware/logger-middleware/logger-middleware.module';
 import { LoggerMiddleware } from 'src/common/middleware/logger-middleware/logger.middleware';
@@ -15,11 +16,12 @@ import { UserSubscriber } from './service/user.subscribe';
  * exports:  如果需要在导入TypeOrmModul的模块之外使用存储库。 对于Feature , 需要重新导出它生成的提供程序，可以通过导出整个模块来完成此操作。
  */
 @Module({
-    imports:[LoggerMiddlewareModule , TypeOrmModule.forFeature([User]),TypeOrmModule.forFeature([Car])],
+    imports:[LoggerMiddlewareModule , TypeOrmModule.forFeature([User]),TypeOrmModule.forFeature([Car]) , ConfigModule ],
     controllers:[UserController],
     providers:[
       UserService ,
       UserSubscriber,
+      ConfigService
     ],
     exports:[TypeOrmModule]
 })

@@ -1,4 +1,5 @@
 import { ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
@@ -20,6 +21,7 @@ import { UserModuleModule } from './module/user-module/user-module.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({envFilePath:'development.env'}),
     LoggerMiddlewareModule, 
     UserModuleModule,
     CustormProviderModule,
