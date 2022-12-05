@@ -5,6 +5,7 @@ import { LoggerMiddleware } from 'src/common/middleware/logger-middleware/logger
 import { UserController } from './controller/user.controller';
 import { User } from './entity/user.entity';
 import { UserService } from './service/user.service';
+import { UserSubscriber } from './service/user.subscribe';
 
 /**
  * imports:  使用forFeature() 方法定义在当前范围中注册的存储库 。这样，就可以使用@InjectRepository() 将 UserRepository 注入到 UserService
@@ -13,7 +14,7 @@ import { UserService } from './service/user.service';
 @Module({
     imports:[LoggerMiddlewareModule , TypeOrmModule.forFeature([User])],
     controllers:[UserController],
-    providers:[UserService],
+    providers:[UserService , UserSubscriber],
     exports:[TypeOrmModule]
 })
 

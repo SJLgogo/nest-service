@@ -5,6 +5,7 @@ import { AuthGard } from 'src/common/guards/auth.gard';
 import { RoleGuard } from 'src/common/guards/role.guard';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
 import { CreateUserDto } from '../dto/user.dto';
+import { User } from '../entity/user.entity';
 import { UserService } from '../service/user.service';
 
 @Controller(
@@ -27,8 +28,14 @@ export class UserController {
     @Post()
     @UsePipes(new ValidationPipe())
     create(@Body() createDto:CreateUserDto){
-        console.log(createDto);
         return createDto.name
+    }
+
+    @Post('/createMany')
+    async createMany(@Body() users:User[]){
+        return await this.userService.createMany([
+            {userName:'sjl',age:18,sex:'男',id:282,isActive:false}
+        ])
     }
 
 

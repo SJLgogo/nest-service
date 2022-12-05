@@ -16,6 +16,7 @@ import { UserModuleModule } from './module/user-module/user-module.module';
 
 
 
+
 @Module({
   imports: [
     LoggerMiddlewareModule, 
@@ -30,6 +31,17 @@ import { UserModuleModule } from './module/user-module/user-module.module';
       password:'root',
       database:'nest',
       // entities:[User],
+      autoLoadEntities: true,  // 不包括未通过 forFeature() 方法注册的实体
+      synchronize:true  // 不要再生产中使用 ， 会丢失数据
+    }),
+    TypeOrmModule.forRoot({
+      type:'mysql',
+      host:'localhost',
+      port:3306,
+      username:'root',
+      password:'root',
+      database:'nest',
+      entities:[User],
       autoLoadEntities: true,  // 不包括未通过 forFeature() 方法注册的实体
       synchronize:true  // 不要再生产中使用 ， 会丢失数据
     })
