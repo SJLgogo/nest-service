@@ -5,7 +5,7 @@ import { Roles } from 'src/common/decorator/roles.decorator';
 import { AuthGard } from 'src/common/guards/auth.gard';
 import { RoleGuard } from 'src/common/guards/role.guard';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
-import { CreateUserDto } from '../dto/user.dto';
+import { CreateUserDto, FindOneParams } from '../dto/user.dto';
 import { User } from '../entity/user.entity';
 import { UserService } from '../service/user.service';
 
@@ -18,29 +18,35 @@ export class UserController {
         private configService:ConfigService
         ){}
 
-    // @Get(':id')
-    // userDetail(@Param('id' ,new ParseIntPipe()) id:number):string{
-    //     return id.toString()
+    @Get('/findById/:id')
+    async userDetail(@Param('id') id:number):Promise<User>{       // 开启管道自动转换
+        return await this.userService.findUserById(id)
+    }
+    /** 显式转换 : 
+     *  @Parma('id' , ParseIntPipe) id :number
+     *  @Parma('sort' , ParseBoolPipe) sort : boolean
+     */
+    // async userDetail(@Param() params:FindOneParams){
+    //     return await this.userService.findUserById(params.id)
     // }
 
     @Get()
-    async findAll(){
-       console.log(this.configService.get('DATABASE_USER'));
-       console.log(this.configService.get('port'));
+    async findAll():Promise<User[]>{
        return await this.userService.findAllUser()
     }
 
-    @Post()
-    @UsePipes(new ValidationPipe())
-    create(@Body() createDto:CreateUserDto){
-        return createDto.name
-    }
+    @Post('/update')
+    // async updateUser(
+    //     @Body() upDateProp:
+    // ){
 
-    @Post('/createMany')
-    async createMany(@Body() users:User[]){
-        return await this.userService.createMany([
-            {userName:'sjl',age:18,sex:'男',id:282}
-        ])
+    // }
+
+
+
+    @Post('/createUser')
+    async createUser(@Body() user:CreateUserDto):Promise<User>{
+        return await this.userService.createUser(user)
     }
 
 

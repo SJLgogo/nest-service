@@ -7,14 +7,11 @@ export class BaseExceptionFillter implements ExceptionFilter{
         const ctx = host.switchToHttp()
         const response = ctx.getResponse() 
         const request = ctx.getRequest()
-        
-        console.log(new ServiceUnavailableException().getResponse());
+
 
         // 非 Http 标准异常处理
         response.status(HttpStatus.SERVICE_UNAVAILABLE).send({
             statusCode:HttpStatus.SERVICE_UNAVAILABLE,
-            timestamp:new Date().toISOString(),
-            path:request.url,
             message:new ServiceUnavailableException().getResponse()
         })
     }

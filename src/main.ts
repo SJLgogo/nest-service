@@ -25,7 +25,10 @@ async function bootstrap() {
   /**
    * 全局管道
    */
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    //   disableErrorMessages: true, 禁用详细错误
+    transform:true    // 自动转换
+  }));
 
   /**
    * 全局守卫

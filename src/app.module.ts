@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'config/configuration';
+import * as Joi from 'joi';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -18,12 +19,17 @@ import { User } from './module/user-module/entity/user.entity';
 import { UserModuleModule } from './module/user-module/user-module.module';
 
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath:'./config/development.env' ,
-      // load:[configuration]   
+      cache:true,  // 缓存环境变量
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test', 'provision')
+          .default('development'),
+        PORT: Joi.number().default(3000),
+      }),
     }),
     LoggerMiddlewareModule, 
     UserModuleModule,
