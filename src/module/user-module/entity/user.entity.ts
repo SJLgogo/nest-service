@@ -15,6 +15,4 @@ export class User{
     @Column()
     sex:string
 
-    @Column({default:false})
-    isActive:boolean;
 }

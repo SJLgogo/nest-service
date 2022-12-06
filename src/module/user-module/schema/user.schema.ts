@@ -18,9 +18,9 @@ export const UserSchema = new EntitySchema<User>({
         age: {
           type: Number,
         },
-        isActive: {
-          type: Boolean,
-          default: true,
-        },
+        // isActive: {
+        //   type: Boolean,
+        //   default: true,
+        // },
       },
     })

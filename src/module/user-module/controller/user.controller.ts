@@ -25,7 +25,8 @@ export class UserController {
 
     @Get()
     async findAll(){
-        console.log(this.configService.get('DATABASE_USER'));
+       console.log(this.configService.get('DATABASE_USER'));
+       console.log(this.configService.get('port'));
        return await this.userService.findAllUser()
     }
 
@@ -38,7 +39,7 @@ export class UserController {
     @Post('/createMany')
     async createMany(@Body() users:User[]){
         return await this.userService.createMany([
-            {userName:'sjl',age:18,sex:'男',id:282,isActive:false}
+            {userName:'sjl',age:18,sex:'男',id:282}
         ])
     }
 

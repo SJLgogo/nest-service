@@ -2,6 +2,7 @@ import { ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nes
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import configuration from 'config/configuration';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,6 +11,7 @@ import { LoggerMiddlewareModule } from './common/middleware/logger-middleware/lo
 import { LoggerMiddleware } from './common/middleware/logger-middleware/logger.middleware';
 import { CustormDynamicModule } from './module/custorm-dynamic/custorm-dynamic.module';
 import { CustormProviderModule } from './module/custorm-provider/custorm-provider.module';
+import { DevelopmentService } from './module/custorm-provider/service/development-config.service';
 import { UserController } from './module/user-module/controller/user.controller';
 import { Car } from './module/user-module/entity/car.entity';
 import { User } from './module/user-module/entity/user.entity';
@@ -17,11 +19,12 @@ import { UserModuleModule } from './module/user-module/user-module.module';
 
 
 
-
-
 @Module({
   imports: [
-    ConfigModule.forRoot({envFilePath:'development.env'}),
+    ConfigModule.forRoot({
+      envFilePath:'./config/development.env' ,
+      // load:[configuration]   
+    }),
     LoggerMiddlewareModule, 
     UserModuleModule,
     CustormProviderModule,
