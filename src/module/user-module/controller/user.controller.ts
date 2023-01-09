@@ -1,11 +1,11 @@
-import { Body, Controller , DefaultValuePipe, Get, Param , Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller , DefaultValuePipe, Get, Param , ParseArrayPipe, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ModuleRef } from '@nestjs/core';
 import { Roles } from 'src/common/decorator/roles.decorator';
 import { AuthGard } from 'src/common/guards/auth.gard';
 import { RoleGuard } from 'src/common/guards/role.guard';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
-import { CreateUserDto, FindOneParams } from '../dto/user.dto';
+import { CreateUserDto, FindOneParams, UpdateUserDto } from '../dto/user.dto';
 import { User } from '../entity/user.entity';
 import { UserService } from '../service/user.service';
 
@@ -36,18 +36,25 @@ export class UserController {
     }
 
     @Post('/update')
-    // async updateUser(
-    //     @Body() upDateProp:
-    // ){
-
-    // }
-
-
+    async updateUser( @Body() upDateProp:UpdateUserDto){
+       return await this.userService.update(upDateProp)
+    }
 
     @Post('/createUser')
     async createUser(@Body() user:CreateUserDto):Promise<User>{
         return await this.userService.createUser(user)
     }
 
+    // ParseArrayPipe 增加数组类型验证
+    @Post('/batchSaveUser')
+    async batchSaveUser(@Body(new ParseArrayPipe({ items: CreateUserDto })) users:CreateUserDto[]):Promise<User[]>{
+        return await this.userService.batchSaveUser(users)
+    }
+
+    // 通过ids 批量查询
+    @Get('/findByIds')
+    findByIds(@Query('ids', new ParseArrayPipe({ items: Number, separator: ',' }))ids: number[]) {
+        return 'This action returns users by ids';
+    }
 
 }

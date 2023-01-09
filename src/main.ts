@@ -27,7 +27,8 @@ async function bootstrap() {
    */
   app.useGlobalPipes(new ValidationPipe({
     //   disableErrorMessages: true, 禁用详细错误
-    transform:true    // 自动转换
+    transform:true,    // 自动转换
+    whitelist:true,   // 设置白名单 ，将请求中未包含在DTO中的属性自动剔除 , 自动删除非白名单属性(验证类中没有任何修饰属性)
   }));
 
   /**

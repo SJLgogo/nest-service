@@ -35,7 +35,6 @@ import { UserModuleModule } from './module/user-module/user-module.module';
     UserModuleModule,
     CustormProviderModule,
     CustormDynamicModule.register({folder:'./config'}),
-    /** 静态配置 */
     TypeOrmModule.forRoot({ 
       type:'mysql',
       host:'localhost',

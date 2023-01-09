@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { InjectDataSource, InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { HttpExceptionFilter } from "src/common/exception/exception.filter";
 import { DataSource, Repository } from "typeorm";
+import { UpdateUserDto } from "../dto/user.dto";
 import { Car } from "../entity/car.entity";
 import { User } from "../entity/user.entity";
 
@@ -38,6 +39,7 @@ export class UserService{
         }
       }
 
+    /** 新建数据 */  
     async createUser(post:Partial<User>):Promise<User>{
         const { userName } = post
         if(!userName){
@@ -50,14 +52,33 @@ export class UserService{
         return await this.userRepository.save(post)
     }
 
+
+    /** 批量新建 */
+    async batchSaveUser(post:Partial<User>[]):Promise<User[]>{
+        let len = post.length
+        for(let i = 0; i<len; i++){
+
+        }
+    
+        return await this.userRepository.save(post) 
+    }
+
+    /** 编辑数据 */
+    async update(data:any):Promise<void>{
+        await this.userRepository.update(data.id,data)
+    }
+
+    /** 查询所有数据 */  
     async findAllUser():Promise<User[]>{
         return await this.userRepository.find() 
     }
 
+    /** 根据Id查询 */
     async findUserById(id:number):Promise<User>{
         return await this.userRepository.findOneBy({id})
     }
 
+    /** 删除数据 */
     async remove(id:number):Promise<void>{
         await this.userRepository.delete(id)
     }

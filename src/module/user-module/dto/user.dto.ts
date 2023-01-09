@@ -1,3 +1,4 @@
+import { PartialType  , OmitType  , IntersectionType} from "@nestjs/mapped-types";
 import { IsNumber, IsNumberString, IsString } from "class-validator";
 
 export class CreateUserDto {
@@ -14,8 +15,10 @@ export class CreateUserDto {
 
 
 // 设置所有属性可选
-// export class UpdateCatDto extends PartialType(CreateUserDto) {}
-
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @IsNumberString()
+  id: number;
+} 
 
 
 // 一个使用类验证器定义验证规则的类
@@ -25,4 +28,15 @@ export class FindOneParams{
 }
 
 
+// 从输入类型选择所有属性 ，然后删除一组特定的键来构造类型
+export class OmitUserType extends OmitType(CreateUserDto, ['userName']) {
 
+}
+
+
+// IntersectionType  将两个类结合成一个类 
+export class intersectionTypeUser extends IntersectionType(
+  CreateUserDto, FindOneParams
+){
+
+}
