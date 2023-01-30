@@ -1,4 +1,5 @@
-import { Body, Controller , DefaultValuePipe, Get, Param , ParseArrayPipe, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, CACHE_MANAGER, ClassSerializerInterceptor, Controller , DefaultValuePipe, Get, Param , ParseArrayPipe, Post, Query, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Inject } from '@nestjs/common/decorators';
 import { ConfigService } from '@nestjs/config';
 import { ModuleRef } from '@nestjs/core';
 import { Roles } from 'src/common/decorator/roles.decorator';
@@ -14,11 +15,14 @@ import { UserService } from '../service/user.service';
 )
 export class UserController {
 
-    constructor(private userService:UserService , private moduleRef:ModuleRef , 
-        private configService:ConfigService
+    constructor(
+        private userService:UserService ,
+        private moduleRef:ModuleRef , 
+        private configService:ConfigService,
+        // @Inject(CACHE_MANAGER) private cacheManager: any
         ){}
 
-    @Get('/findById/:id')
+    @Get('/findById:id')
     async userDetail(@Param('id') id:number):Promise<User>{       // 开启管道自动转换
         return await this.userService.findUserById(id)
     }
@@ -51,10 +55,26 @@ export class UserController {
         return await this.userService.batchSaveUser(users)
     }
 
-    // 通过ids 批量查询
+    // 通过ids 批量查询  ?ids=1,2,3
     @Get('/findByIds')
     findByIds(@Query('ids', new ParseArrayPipe({ items: Number, separator: ',' }))ids: number[]) {
         return 'This action returns users by ids';
     }
+
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Get('/classSerializerInterceptor')
+    findOne(): User {
+      return new User({
+        id: 1,
+        userName: 'Kamil',
+        sex: 'Mysliwiec',
+      });
+    }
+
+    // @Get('/cacheManager')
+    // cacheFn(){
+    //     this.cacheManager.set('key','value')
+    // }   
+
 
 }

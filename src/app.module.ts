@@ -1,4 +1,4 @@
-import { ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { CacheModule, ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -46,13 +46,17 @@ import { UserModuleModule } from './module/user-module/user-module.module';
       autoLoadEntities: true,  
       synchronize:true  
     }),
+    CacheModule.register({
+      isGlobal:true
+    })
   ],
   controllers: [AppController],
   providers: [AppService , {
     provide:APP_FILTER,
     useClass:HttpExceptionFilter
   }],
-  exports:[]
+  exports:[
+  ]
 })
 
 

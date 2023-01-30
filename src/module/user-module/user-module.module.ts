@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddlewareModule } from 'src/common/middleware/logger-middleware/logger-middleware.module';
@@ -21,7 +21,11 @@ import { UserSubscriber } from './service/user.subscribe';
     providers:[
       UserService ,
       UserSubscriber,
-      ConfigService
+      ConfigService,
+      {
+        provide:'CACHE_MANAGER',
+        useValue:CACHE_MANAGER
+      }
     ],
     exports:[TypeOrmModule]
 })

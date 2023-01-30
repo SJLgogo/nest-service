@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { CACHE_MANAGER, HttpException, Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectDataSource, InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { HttpExceptionFilter } from "src/common/exception/exception.filter";
@@ -6,6 +6,7 @@ import { DataSource, Repository } from "typeorm";
 import { UpdateUserDto } from "../dto/user.dto";
 import { Car } from "../entity/car.entity";
 import { User } from "../entity/user.entity";
+import { Cache } from "cache-manager";
 
 @Injectable()
 export class UserService{
@@ -14,9 +15,11 @@ export class UserService{
         @InjectRepository(User) private userRepository:Repository<User>,
         @InjectRepository(Car) private carRepository:Repository<Car>,
         private dataSource : DataSource,
-        private configService:ConfigService
+        private configService:ConfigService,
+        @Inject(CACHE_MANAGER) private cacheManager:Cache
     ){
     }
+
 
     // 在数据库中使用事务，可以保证多个数据库操作的一致性
     async createMany(users: User[]) {
@@ -55,11 +58,6 @@ export class UserService{
 
     /** 批量新建 */
     async batchSaveUser(post:Partial<User>[]):Promise<User[]>{
-        let len = post.length
-        for(let i = 0; i<len; i++){
-
-        }
-    
         return await this.userRepository.save(post) 
     }
 
