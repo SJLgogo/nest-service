@@ -7,6 +7,7 @@ import { UpdateUserDto } from "../dto/user.dto";
 import { Car } from "../entity/car.entity";
 import { User } from "../entity/user.entity";
 import { Cache } from "cache-manager";
+import { SchedulerRegistry } from "@nestjs/schedule";
 
 @Injectable()
 export class UserService{
@@ -16,7 +17,8 @@ export class UserService{
         @InjectRepository(Car) private carRepository:Repository<Car>,
         private dataSource : DataSource,
         private configService:ConfigService,
-        @Inject(CACHE_MANAGER) private cacheManager:Cache
+        @Inject(CACHE_MANAGER) private cacheManager:Cache,
+        private schedulerRegistry: SchedulerRegistry
     ){
     }
 
@@ -68,6 +70,9 @@ export class UserService{
 
     /** 查询所有数据 */  
     async findAllUser():Promise<User[]>{
+        const job = this.schedulerRegistry.getCronJob('notifications');
+        console.log(job);
+        job.stop();
         return await this.userRepository.find() 
     }
 

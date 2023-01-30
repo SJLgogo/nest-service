@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BaseExceptionFillter } from './common/exception/base.exception.filter';
@@ -36,9 +36,7 @@ async function bootstrap() {
    * app.useGlobalGuards(new RolesGuard());
    */
 
-  /**
-   * 全局拦截器
-   */
+  /** 全局拦截器 */
    app.useGlobalInterceptors(new LoggingInterceptor())
 
   await app.listen(3000);

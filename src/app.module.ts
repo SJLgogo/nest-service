@@ -1,6 +1,7 @@
 import { CacheModule, ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'config/configuration';
 import * as Joi from 'joi';
@@ -48,7 +49,8 @@ import { UserModuleModule } from './module/user-module/user-module.module';
     }),
     CacheModule.register({
       isGlobal:true
-    })
+    }),
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService , {

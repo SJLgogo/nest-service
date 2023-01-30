@@ -8,6 +8,7 @@ import { UserController } from './controller/user.controller';
 import { Car } from './entity/car.entity';
 import { User } from './entity/user.entity';
 import { AlbumsService } from './service/albums.service';
+import { TaskService } from './service/task.service';
 import { UserService } from './service/user.service';
 import { UserSubscriber } from './service/user.subscribe';
 
@@ -22,6 +23,7 @@ import { UserSubscriber } from './service/user.subscribe';
       UserService ,
       UserSubscriber,
       ConfigService,
+      TaskService,
       {
         provide:'CACHE_MANAGER',
         useValue:CACHE_MANAGER
