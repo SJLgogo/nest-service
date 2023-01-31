@@ -12,26 +12,26 @@ export class TaskService{
     private readonly logger = new Logger(TaskService.name)
 
     // 也可以向装饰器提供Date , 这样做会导致作业在指定日期执行一次
-    @Cron('45*****', {
-        name: 'notifications',
-        timeZone: 'Europe/Paris',
-      })  
-    handleCron(){
-        this.logger.debug('每当秒数为45秒时执行一次')   // 每当秒数为45秒时执行一次
-    }
+    // @Cron('45*****', {
+    //     name: 'notifications',
+    //     timeZone: 'Europe/Paris',
+    //   })  
+    // handleCron(){
+    //     this.logger.debug('每当秒数为45秒时执行一次')   // 每当秒数为45秒时执行一次
+    // }
 
 
     // 声明一个方法以指定的间隔运行 ， 在方法定义面前加上 @interval() 修饰符
     @Interval('inertval',10000)
     handleInterval(){
-        this.logger.debug('10秒执行一次')
+        // this.logger.debug('10秒执行一次')
     }
 
 
     // 声明一个方法在指定的超时运行一次 。 将应用程序启动后的相对时间便宜传递给装饰器
     @Timeout('timeout',5000)
     handleTimeOut(){
-        this.logger.debug('程序运行5秒后执行')
+        // this.logger.debug('程序运行5秒后执行')
     }
 
 

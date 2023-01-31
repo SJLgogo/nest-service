@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bull';
 import { CacheModule, ForbiddenException, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
@@ -18,7 +19,17 @@ import { UserController } from './module/user-module/controller/user.controller'
 import { Car } from './module/user-module/entity/car.entity';
 import { User } from './module/user-module/entity/user.entity';
 import { UserModuleModule } from './module/user-module/user-module.module';
+import { AudioModule } from './module/audio/audio.module';
 
+const audio:any[]=[
+  BullModule.forRoot({
+    redis: {
+      host: 'localhost',
+      port: 6379,
+    },
+  }),
+  AudioModule
+]
 
 @Module({
   imports: [
@@ -50,7 +61,8 @@ import { UserModuleModule } from './module/user-module/user-module.module';
     CacheModule.register({
       isGlobal:true
     }),
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
+    ...audio
   ],
   controllers: [AppController],
   providers: [AppService , {

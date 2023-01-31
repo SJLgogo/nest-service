@@ -70,9 +70,6 @@ export class UserService{
 
     /** 查询所有数据 */  
     async findAllUser():Promise<User[]>{
-        const job = this.schedulerRegistry.getCronJob('notifications');
-        console.log(job);
-        job.stop();
         return await this.userRepository.find() 
     }
 
