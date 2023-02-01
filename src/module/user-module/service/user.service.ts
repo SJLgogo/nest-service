@@ -8,6 +8,7 @@ import { Car } from "../entity/car.entity";
 import { User } from "../entity/user.entity";
 import { Cache } from "cache-manager";
 import { SchedulerRegistry } from "@nestjs/schedule";
+import { MyLogger } from "src/module/logger/logger.service";
 
 @Injectable()
 export class UserService{
@@ -18,7 +19,8 @@ export class UserService{
         private dataSource : DataSource,
         private configService:ConfigService,
         @Inject(CACHE_MANAGER) private cacheManager:Cache,
-        private schedulerRegistry: SchedulerRegistry
+        private schedulerRegistry: SchedulerRegistry,
+        private myLogger:MyLogger
     ){
     }
 

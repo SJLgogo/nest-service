@@ -5,9 +5,13 @@ import { BaseExceptionFillter } from './common/exception/base.exception.filter';
 import { HttpExceptionFilter } from './common/exception/exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logger.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { MyLogger } from './module/logger/logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    bufferLogs:true
+  });
+  app.useLogger(app.get(MyLogger))
   /** 
    * 全局中间件
    *  app.use(logger)
