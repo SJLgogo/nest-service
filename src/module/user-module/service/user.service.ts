@@ -9,6 +9,7 @@ import { User } from "../entity/user.entity";
 import { Cache } from "cache-manager";
 import { SchedulerRegistry } from "@nestjs/schedule";
 import { MyLogger } from "src/module/logger/logger.service";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 @Injectable()
 export class UserService{
@@ -20,7 +21,8 @@ export class UserService{
         private configService:ConfigService,
         @Inject(CACHE_MANAGER) private cacheManager:Cache,
         private schedulerRegistry: SchedulerRegistry,
-        private myLogger:MyLogger
+        private myLogger:MyLogger,
+        private eventEmitter:EventEmitter2
     ){
     }
 
@@ -84,5 +86,6 @@ export class UserService{
     async remove(id:number):Promise<void>{
         await this.userRepository.delete(id)
     }
+
 
 }

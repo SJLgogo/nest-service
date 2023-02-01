@@ -20,6 +20,9 @@ import { Car } from './module/user-module/entity/car.entity';
 import { User } from './module/user-module/entity/user.entity';
 import { UserModuleModule } from './module/user-module/user-module.module';
 import { AudioModule } from './module/audio/audio.module';
+import { LoggerModule } from './module/logger/logger.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { OrdersModule } from './module/orders/orders.module';
 
 const audio:any[]=[
   BullModule.forRoot({
@@ -30,6 +33,12 @@ const audio:any[]=[
   }),
   AudioModule
 ]
+
+const event = [
+  EventEmitterModule.forRoot({global:true})
+]
+
+const moduleList:any[] = [...event , ...audio , OrdersModule]
 
 @Module({
   imports: [
@@ -43,6 +52,7 @@ const audio:any[]=[
         PORT: Joi.number().default(3000),
       }),
     }),
+    LoggerModule,
     LoggerMiddlewareModule, 
     UserModuleModule,
     CustormProviderModule,
@@ -62,7 +72,7 @@ const audio:any[]=[
       isGlobal:true
     }),
     ScheduleModule.forRoot(),
-    ...audio
+    ...moduleList
   ],
   controllers: [AppController],
   providers: [AppService , {
