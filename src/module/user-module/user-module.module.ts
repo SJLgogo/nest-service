@@ -12,6 +12,7 @@ import { AlbumsService } from './service/albums.service';
 import { TaskService } from './service/task.service';
 import { UserService } from './service/user.service';
 import { UserSubscriber } from './service/user.subscribe';
+import { UserAuthService } from './service/userAuth.service';
 
 /**
  * imports:  使用forFeature() 方法定义在当前范围中注册的存储库 。这样，就可以使用@InjectRepository() 将 UserRepository 注入到 UserService
@@ -25,12 +26,13 @@ import { UserSubscriber } from './service/user.subscribe';
       UserSubscriber,
       ConfigService,
       TaskService,
+      UserAuthService,
       {
         provide:'CACHE_MANAGER',
         useValue:CACHE_MANAGER
       }
     ],
-    exports:[TypeOrmModule]
+    exports:[TypeOrmModule,UserAuthService]
 })
 
 /** 模块使用中间件 必须满足NestModule接口 */

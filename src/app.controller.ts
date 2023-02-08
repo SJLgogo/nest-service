@@ -6,13 +6,25 @@ import {
   Param,
   Post,
   Req,
-  Request
+  Request,
+  UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
+import { logger } from './common/middleware/logger-middleware/logger.middleware';
+import { LocalAuthGuard } from './module/auth/guard/loacl-auth.guard';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
+
+
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  async login(@Request() req){
+    return req.user
+  }
+
 
   @Get()
   getHello(@Param() params): string {

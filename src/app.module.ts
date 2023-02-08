@@ -23,6 +23,7 @@ import { AudioModule } from './module/audio/audio.module';
 import { LoggerModule } from './module/logger/logger.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { OrdersModule } from './module/orders/orders.module';
+import { AuthModule } from './module/auth/auth.module';
 
 const audio:any[]=[
   BullModule.forRoot({
@@ -33,12 +34,13 @@ const audio:any[]=[
   }),
   AudioModule
 ]
+const auth = [AuthModule]
 
 const event = [
   EventEmitterModule.forRoot({global:true})
 ]
 
-const moduleList:any[] = [...event , ...audio , OrdersModule]
+const moduleList:any[] = [...event , ...audio , OrdersModule , ...auth]
 
 @Module({
   imports: [

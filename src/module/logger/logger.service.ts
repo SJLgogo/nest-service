@@ -7,4 +7,4 @@ export class MyLogger extends ConsoleLogger{
         super.error('自定义错误信息:'+message)
     }
 
-}
+} 
