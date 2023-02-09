@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { UserAuthService } from '../user-module/service/userAuth.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private userAuthService : UserAuthService){
+    constructor(private userAuthService : UserAuthService , private jwtService:JwtService){
     }
 
 
@@ -15,5 +16,14 @@ export class AuthService {
             return result;
         }
         return null
+    }
+
+
+    // 生成一个JWT( JSON Web Token ) , 并返回 
+    async login(user:any):Promise<any>{
+        const payload = {username:user.username,sub:user.userId}
+        return {
+            access_token : this.jwtService.sign(payload)
+        }
     }
 }
